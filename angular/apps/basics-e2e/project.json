@@ -1,5 +1,4 @@
 {
-  "root": "apps/basics-e2e",
   "sourceRoot": "apps/basics-e2e/src",
   "projectType": "application",
   "targets": {

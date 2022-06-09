@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/basics",
   "sourceRoot": "apps/basics/src",
   "prefix": "basics",
   "targets": {

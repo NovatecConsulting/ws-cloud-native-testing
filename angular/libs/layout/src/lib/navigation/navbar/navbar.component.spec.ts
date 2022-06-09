@@ -1,6 +1,6 @@
-import { MockBuilder, MockRender } from 'ng-mocks';
 import { NavbarComponent } from './navbar.component';
-import { NavigationModule } from '../navigation.module';
+import { MockBuilder, MockRender } from 'ng-mocks';
+import { NavigationModule } from '../../../../../../apps/basics/src/app/layout/navigation/navigation.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('Navbar', () => {

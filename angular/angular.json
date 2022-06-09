@@ -3,6 +3,10 @@
   "version": 2,
   "projects": {
     "basics": "apps/basics",
-    "basics-e2e": "apps/basics-e2e"
+    "basics-e2e": "apps/basics-e2e",
+    "layout": "libs/layout",
+    "ngrx": "apps/ngrx",
+    "ngrx-e2e": "apps/ngrx-e2e",
+    "theming": "libs/theming"
   }
 }

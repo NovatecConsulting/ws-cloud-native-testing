@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/layout/src",
+  "prefix": "layout",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/layout"],
+      "options": {
+        "jestConfig": "libs/layout/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/layout/**/*.ts", "libs/layout/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}
