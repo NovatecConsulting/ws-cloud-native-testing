@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { WeatherService, WeatherLocation } from './service/weather.service';
+import { WeatherService } from './service/weather.service';
+import { WeatherLocation } from '@cntws/weather';
 
 @Component({
   selector: 'basics-weather-page',
@@ -7,14 +8,16 @@ import { WeatherService, WeatherLocation } from './service/weather.service';
   styleUrls: ['./weather-page.component.scss'],
 })
 export class WeatherPageComponent {
-  weather$ = this.service.weather$;
-  warning$ = this.service.warning$;
-  isLoading$ = this.service.isLoading$;
-  mainLocation$ = this.service.mainLocation$;
+  weatherTemplateData = {
+    weather$: this.service.weather$,
+    warning$: this.service.warning$,
+    isLoading$: this.service.isLoading$,
+    mainLocation$: this.service.mainLocation$,
+  };
 
   constructor(private service: WeatherService) {
     this.service.getMainLocation();
-    this.mainLocation$.subscribe((location) => {
+    this.weatherTemplateData.mainLocation$.subscribe((location) => {
       if (location) {
         this.service.getWeatherForLocation(location);
       }

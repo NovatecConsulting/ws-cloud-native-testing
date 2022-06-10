@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { WeatherModule } from './pages/weather/weather.module';
+import { WeatherPageModule } from './pages/weather/weather-page.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DEFINED_ROUTES } from './routes';
 import { EntryModule } from './pages/entry/entry.module';
-import { NavbarComponent } from '@cntws/layout';
+import { NavigationModule } from '@cntws/layout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,10 +16,10 @@ import { NavbarComponent } from '@cntws/layout';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(DEFINED_ROUTES),
-    WeatherModule,
+    WeatherPageModule,
     EntryModule,
     BrowserAnimationsModule,
-    NavbarComponent,
+    NavigationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

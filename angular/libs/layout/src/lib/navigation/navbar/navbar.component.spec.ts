@@ -1,10 +1,10 @@
 import { NavbarComponent } from './navbar.component';
 import { MockBuilder, MockRender } from 'ng-mocks';
-import { NavigationModule } from '../../../../../../apps/basics/src/app/layout/navigation/navigation.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
+// TODO: fix me, own module
 describe('Navbar', () => {
-  beforeEach(() => MockBuilder(NavbarComponent, NavigationModule).keep(RouterTestingModule));
+  beforeEach(() => MockBuilder(NavbarComponent).keep(RouterTestingModule));
 
   it('should stay consistent', () => {
     const fixture = MockRender(NavbarComponent);

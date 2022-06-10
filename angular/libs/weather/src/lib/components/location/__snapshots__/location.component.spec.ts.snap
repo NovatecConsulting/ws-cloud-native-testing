@@ -4,7 +4,7 @@ exports[`A user viewing the component should see a consistent layout if no locat
 <mock-render
   __ngContext__={[Function Number]}
 >
-  <basics-location>
+  <weather-location>
     <mat-card>
       <mat-card-content>
         <form
@@ -34,7 +34,7 @@ exports[`A user viewing the component should see a consistent layout if no locat
         </form>
       </mat-card-content>
     </mat-card>
-  </basics-location>
+  </weather-location>
 </mock-render>
 `;
 
@@ -42,7 +42,7 @@ exports[`A user viewing the component should see a consistent layout with their 
 <mock-render
   __ngContext__={[Function Number]}
 >
-  <basics-location>
+  <weather-location>
     <mat-card>
       <mat-card-subtitle>
         Current saved location: Stuttgart
@@ -75,6 +75,6 @@ exports[`A user viewing the component should see a consistent layout with their 
         </form>
       </mat-card-content>
     </mat-card>
-  </basics-location>
+  </weather-location>
 </mock-render>
 `;

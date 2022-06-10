@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { WeatherLocation } from '../../service/weather.service';
+import { WeatherLocation } from '../../model/model';
 
 @Component({
-  selector: 'basics-weather-results',
-  templateUrl: './weather-results.component.html',
-  styleUrls: ['./weather-results.component.scss'],
+  selector: 'weather-results',
+  templateUrl: './results.component.html',
+  styleUrls: ['./results.component.scss'],
 })
-export class WeatherResultsComponent {
+export class ResultsComponent {
   @Input() weatherLocations: WeatherLocation[] = [];
   @Output() savedLocation = new EventEmitter<WeatherLocation>();
 

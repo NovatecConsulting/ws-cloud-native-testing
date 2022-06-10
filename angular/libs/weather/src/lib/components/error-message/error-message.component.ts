@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'basics-error-message',
+  selector: 'weather-error-message',
   templateUrl: './error-message.component.html',
   styleUrls: ['./error-message.component.scss'],
 })

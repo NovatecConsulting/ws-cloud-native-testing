@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/weather/src",
+  "prefix": "weather",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/weather"],
+      "options": {
+        "jestConfig": "libs/weather/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/weather/**/*.ts", "libs/weather/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

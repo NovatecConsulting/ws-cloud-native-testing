@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`A user visiting the Weather Page should have a consistent layout if their data contains an error 1`] = `
+<mock-render
+  __ngContext__={[Function Number]}
+>
+  <weather-page-template>
+    <div
+      class="block relative min-h-100"
+    >
+      <weather-location
+        class="block pb-4"
+      />
+      <weather-results
+        class="block pb-4"
+      />
+      <weather-error-message
+        class="block mb-3"
+      />
+    </div>
+  </weather-page-template>
+</mock-render>
+`;
+
+exports[`A user visiting the Weather Page should have a consistent layout if their data has valid results 1`] = `
+<mock-render
+  __ngContext__={[Function Number]}
+>
+  <weather-page-template>
+    <div
+      class="block relative min-h-100"
+    >
+      <weather-location
+        class="block pb-4"
+      />
+      <weather-results
+        class="block pb-4"
+      />
+    </div>
+  </weather-page-template>
+</mock-render>
+`;
+
+exports[`A user visiting the Weather Page should have a consistent layout if their data is still loading 1`] = `
+<mock-render
+  __ngContext__={[Function Number]}
+>
+  <weather-page-template>
+    <div
+      class="block relative min-h-100"
+    >
+      <weather-loading />
+    </div>
+  </weather-page-template>
+</mock-render>
+`;

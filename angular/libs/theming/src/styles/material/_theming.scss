@@ -89,12 +89,12 @@ $angular-accent: mat.define-palette($ntred, 500, 100, 900);
 $angular-warn: mat.define-palette(mat.$red-palette);
 
 $angular-default-theme: mat.define-dark-theme(
-    (
-      color: (
-        primary: $angular-primary,
-        accent: $angular-accent,
-      ),
-    )
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+    ),
+  )
 );
 
 @include mat.all-component-themes($angular-default-theme);

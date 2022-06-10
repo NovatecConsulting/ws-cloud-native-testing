@@ -16,8 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@cntws/layout": ["libs/layout/src/index.ts"],
-      "@cntws/theming": ["libs/theming/src/index.ts"]
+      "@cntws/theming": ["libs/theming/src/index.ts"],
+      "@cntws/weather": ["libs/weather/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "dist"]
 }

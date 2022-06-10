@@ -4,7 +4,7 @@ exports[`A user triggering an error can get it displayed 1`] = `
 <mock-render
   __ngContext__="0"
 >
-  <basics-error-message>
+  <weather-error-message>
     <mat-card>
       <mat-card-content>
         <div
@@ -24,6 +24,6 @@ exports[`A user triggering an error can get it displayed 1`] = `
         </div>
       </mat-card-content>
     </mat-card>
-  </basics-error-message>
+  </weather-error-message>
 </mock-render>
 `;

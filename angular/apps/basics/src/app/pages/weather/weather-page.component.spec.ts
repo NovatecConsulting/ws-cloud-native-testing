@@ -1,8 +1,8 @@
 import '../../testing-helpers/window.mock';
 import { MockBuilder, MockRender, MockService } from 'ng-mocks';
 import { WeatherPageComponent } from './weather-page.component';
-import { WeatherModule } from './weather.module';
-import { WeatherLocation, WeatherService } from './service/weather.service';
+import { WeatherPageModule } from './weather-page.module';
+import { WeatherService } from './service/weather.service';
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -18,16 +18,12 @@ import { MatCardModule } from '@angular/material/card';
 import { WeatherIntroductionComponent } from './paragraphs/introduction/weather-introduction.component';
 import { WeatherExplanationComponent } from './paragraphs/explanation/weather-explanation.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { LocationComponent } from './components/location/location.component';
-import { ErrorMessageComponent } from './components/error-message/error-message.component';
-import { LoadingComponent } from './components/loading/loading/loading.component';
-import { WeatherResultsComponent } from './components/result/weather-results.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterTestingModule } from '@angular/router/testing';
+import { WeatherLocation, WeatherModule } from '@cntws/weather';
 
 type serviceMockProps = {
   isLoading?: boolean;
@@ -53,25 +49,19 @@ describe('A user visiting the Component Testing Page', () => {
    * These tests are testing the complete module and give us confidence for bigger refactorings.
    * They are rather brittle and thus, we have to use them carefully.
    * Further, they do not give good insights in why a specific scenario is failing.
-   * This loads to a need of additional tests for your components to get better feedback.
+   * This leads to a need of additional tests for your components to get better feedback.
    */
   describe('and having their data loaded', () => {
+    const stuttgart = 'stuttgart';
+    const twentyFive = 25;
     let fixture: ComponentFixture<WeatherPageComponent>;
     let loader: HarnessLoader;
     let controller: HttpTestingController;
 
     beforeEach(async () => {
       return TestBed.configureTestingModule({
-        declarations: [
-          WeatherPageComponent,
-          WeatherIntroductionComponent,
-          WeatherExplanationComponent,
-          LocationComponent,
-          ErrorMessageComponent,
-          LoadingComponent,
-          WeatherResultsComponent,
-        ],
-        imports: [NoopAnimationsModule, HttpClientTestingModule, ReactiveFormsModule, ...MaterialModules],
+        declarations: [WeatherPageComponent, WeatherIntroductionComponent, WeatherExplanationComponent],
+        imports: [NoopAnimationsModule, HttpClientTestingModule, ReactiveFormsModule, WeatherModule, ...MaterialModules],
         providers: [WeatherService],
       }).compileComponents();
     });
@@ -82,39 +72,14 @@ describe('A user visiting the Component Testing Page', () => {
       controller = TestBed.inject(HttpTestingController);
     });
 
-    it('should load their saved location', async () => {
-      const location = 'stuttgart';
-      const temp = 25;
-
+    function flushLocationAndWeather() {
       const locationRequest = controller.expectOne(`${environment.weatherApi}/mainLocation`);
-      locationRequest.flush(ApiModelGenerators.createLocationApiModel(location));
-      const weatherRequest = controller.expectOne(`${environment.weatherApi}/locations?q=${location}`);
-      weatherRequest.flush(ApiModelGenerators.createWeatherApiModel(location, temp));
+      locationRequest.flush(ApiModelGenerators.createLocationApiModel(stuttgart));
+      const weatherRequest = controller.expectOne(`${environment.weatherApi}/locations?q=${stuttgart}`);
+      weatherRequest.flush(ApiModelGenerators.createWeatherApiModel(stuttgart, twentyFive));
+    }
 
-      await loader.getHarness(MatCardHarness.with({ subtitle: new RegExp(`.*(${location}).*`) }));
-    });
-
-    it('should load the weather for their saved location', async () => {
-      const location = 'stuttgart';
-      const temp = 25;
-
-      const locationRequest = controller.expectOne(`${environment.weatherApi}/mainLocation`);
-      locationRequest.flush(ApiModelGenerators.createLocationApiModel(location));
-      const weatherRequest = controller.expectOne(`${environment.weatherApi}/locations?q=${location}`);
-      weatherRequest.flush(ApiModelGenerators.createWeatherApiModel(location, temp));
-
-      await loader.getHarness(MatCardHarness.with({ title: location }));
-    });
-
-    it('should be able to search for a location', async () => {
-      const location = 'stuttgart';
-      const temp = 25;
-
-      const locationRequest = controller.expectOne(`${environment.weatherApi}/mainLocation`);
-      locationRequest.flush(ApiModelGenerators.createLocationApiModel(location));
-      const weatherRequest = controller.expectOne(`${environment.weatherApi}/locations?q=${location}`);
-      weatherRequest.flush(ApiModelGenerators.createWeatherApiModel(location, temp));
-
+    async function searchAndFlushWeather() {
       const locationCard = await loader.getHarness(MatCardHarness.with({ subtitle: new RegExp(`.*(location).*`) }));
       const locationInput = await locationCard.getHarness(MatInputHarness);
       const searchedWeather = 'Frankfurt';
@@ -122,34 +87,44 @@ describe('A user visiting the Component Testing Page', () => {
       const searchButton = await locationCard.getHarness(MatButtonHarness);
       await searchButton.click();
       const searchedWeatherRequest = controller.expectOne(`${environment.weatherApi}/locations?q=${searchedWeather}`);
-      searchedWeatherRequest.flush(ApiModelGenerators.createWeatherApiModel(searchedWeather, temp));
+      searchedWeatherRequest.flush(ApiModelGenerators.createWeatherApiModel(searchedWeather, twentyFive));
+      return searchedWeather;
+    }
+
+    it('should load their saved location', async () => {
+      flushLocationAndWeather();
+      await loader.getHarness(MatCardHarness.with({ subtitle: new RegExp(`.*(${stuttgart}).*`) }));
+    });
+
+    it('should load the weather for their saved location', async () => {
+      flushLocationAndWeather();
+      await loader.getHarness(MatCardHarness.with({ title: stuttgart }));
+    });
+
+    it('should be able to search for a location', async () => {
+      flushLocationAndWeather();
+      const searchedWeather = await searchAndFlushWeather();
 
       await loader.getHarness(MatCardHarness.with({ title: searchedWeather }));
+    });
+
+    it('should be able to save a location', async () => {
+      flushLocationAndWeather();
+      const searchedWeather = await searchAndFlushWeather();
+
+      const searchedWeatherResult = await loader.getHarness(MatCardHarness.with({ title: searchedWeather }));
+      const saveButton = await searchedWeatherResult.getHarness(MatButtonHarness);
+      await saveButton.click();
+      const saveRequest = controller.expectOne(`${environment.weatherApi}/mainLocation`);
+      expect(saveRequest.request.method).toEqual('POST');
     });
   });
 
   describe('should have a consistent layout', () => {
-    beforeEach(() => MockBuilder(WeatherPageComponent, WeatherModule));
+    beforeEach(() => MockBuilder(WeatherPageComponent, WeatherPageModule));
 
     it('if the service is loading', () => {
-      const service = createServiceMock({ isLoading: true });
-      const fixture = MockRender(WeatherPageComponent, {}, { providers: [{ provide: WeatherService, useValue: service }] });
-      expect(fixture).toMatchSnapshot();
-    });
-
-    it('if the service has a warning', () => {
-      const service = createServiceMock({ warning: 'This is a warning!' });
-      const fixture = MockRender(WeatherPageComponent, {}, { providers: [{ provide: WeatherService, useValue: service }] });
-      expect(fixture).toMatchSnapshot();
-    });
-
-    it('if the service has no warning', () => {
-      const service = createServiceMock({
-        weather: [
-          { location: 'Stuttgart', temp: 23 },
-          { location: 'Frankfurt', temp: 15 },
-        ],
-      });
+      const service = createServiceMock({});
       const fixture = MockRender(WeatherPageComponent, {}, { providers: [{ provide: WeatherService, useValue: service }] });
       expect(fixture).toMatchSnapshot();
     });

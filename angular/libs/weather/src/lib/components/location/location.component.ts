@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'basics-location',
+  selector: 'weather-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss'],
 })

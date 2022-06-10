@@ -7,7 +7,7 @@ describe('Weather page', () => {
     App.navigateTo('Weather');
     Setup.resetMainLocation();
     Setup.resetLocations();
-    cy.get('basics-location').should('exist');
+    cy.get('weather-location').should('exist');
   });
 
   it('should return the results for a search for stuttgart', () => {
@@ -18,6 +18,6 @@ describe('Weather page', () => {
   it('should display the error for a non existent city', () => {
     const location = 'ThisCityDoesNotExist';
     WeatherApp.searchLocation(location);
-    cy.get('basics-error-message').should('contain.text', `${location}`);
+    cy.get('weather-error-message').should('contain.text', `${location}`);
   });
 });

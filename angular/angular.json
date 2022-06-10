@@ -7,6 +7,7 @@
     "layout": "libs/layout",
     "ngrx": "apps/ngrx",
     "ngrx-e2e": "apps/ngrx-e2e",
-    "theming": "libs/theming"
+    "theming": "libs/theming",
+    "weather": "libs/weather"
   }
 }

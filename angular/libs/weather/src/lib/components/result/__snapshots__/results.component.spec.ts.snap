@@ -4,7 +4,7 @@ exports[`A user viewing their results should see a consistent layout 1`] = `
 <mock-render
   __ngContext__="0"
 >
-  <basics-weather-results>
+  <weather-results>
     <div
       class="grid grid-cols-3 gap-4"
     >
@@ -43,6 +43,6 @@ exports[`A user viewing their results should see a consistent layout 1`] = `
         </mat-card-content>
       </mat-card>
     </div>
-  </basics-weather-results>
+  </weather-results>
 </mock-render>
 `;

@@ -1,0 +1,18 @@
+<div class="block relative min-h-100">
+  <ng-container *ngIf="(weatherTemplateData.isLoading$ | async) === false">
+    <weather-location
+      *ngIf="(weatherTemplateData.mainLocation$ | async) !== null"
+      (searched)="searched.emit($event)"
+      [defaultLocation]="(weatherTemplateData.mainLocation$ | async)!"
+      class="block pb-4"
+    ></weather-location>
+    <weather-results
+      *ngIf="weatherTemplateData.weather$ | async"
+      [weatherLocations]="(weatherTemplateData.weather$ | async)!"
+      (savedLocation)="savedLocation.emit($event)"
+      class="block pb-4"
+    ></weather-results>
+    <weather-error-message *ngIf="weatherTemplateData.warning$ | async as message" [message]="message!" class="block mb-3"></weather-error-message>
+  </ng-container>
+  <weather-loading *ngIf="weatherTemplateData.isLoading$ | async"></weather-loading>
+</div>

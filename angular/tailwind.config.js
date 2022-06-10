@@ -1,9 +1,6 @@
 module.exports = {
   important: true,
-  content: [
-    './apps/**/src/**/*.{html,ts}',
-    './libs/**/src/**/*.{html,ts}'
-  ],
+  content: ['./apps/**/src/**/*.{html,ts}', './libs/**/src/**/*.{html,ts}'],
   theme: {
     screens: {
       sm: '600px',
