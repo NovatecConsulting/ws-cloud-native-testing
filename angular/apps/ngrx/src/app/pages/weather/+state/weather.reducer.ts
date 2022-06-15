@@ -1,35 +1,16 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+import {Action, createReducer, on} from "@ngrx/store";
+import {initialState, WeatherActions, WeatherState} from "./weather.state";
+import {WeatherLocation} from "@cntws/weather";
 
-import * as WeatherActions from './weather.actions';
-import { WeatherEntity } from './weather.models';
-
-export const WEATHER_FEATURE_KEY = 'weather';
-
-export interface State extends EntityState<WeatherEntity> {
-  selectedId?: string | number; // which Weather record has been selected
-  loaded: boolean; // has the Weather list been loaded
-  error?: string | null; // last known error (if any)
+const setWeather = (state: WeatherState, { locations }: { locations: ReadonlyArray<WeatherLocation> }) => {
+  console.log('reducing');
+  return ({...state, locations});
 }
-
-export interface WeatherPartialState {
-  readonly [WEATHER_FEATURE_KEY]: State;
-}
-
-export const weatherAdapter: EntityAdapter<WeatherEntity> = createEntityAdapter<WeatherEntity>();
-
-export const initialState: State = weatherAdapter.getInitialState({
-  // set initial required properties
-  loaded: false,
-});
-
 const weatherReducer = createReducer(
   initialState,
-  on(WeatherActions.init, (state) => ({ ...state, loaded: false, error: null })),
-  on(WeatherActions.loadWeatherSuccess, (state, { weather }) => weatherAdapter.setAll(weather, { ...state, loaded: true })),
-  on(WeatherActions.loadWeatherFailure, (state, { error }) => ({ ...state, error }))
+  on(WeatherActions.loadWeatherLocationsSuccess, setWeather),
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: WeatherState | undefined, action: Action) {
   return weatherReducer(state, action);
 }

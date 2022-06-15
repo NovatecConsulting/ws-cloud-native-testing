@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-
-import * as WeatherActions from './weather.actions';
-import * as WeatherFeature from './weather.reducer';
-import {map} from "rxjs";
+import { WeatherActions } from './weather.state';
 
 @Injectable()
 export class WeatherEffects {
@@ -12,13 +9,24 @@ export class WeatherEffects {
     this.actions$.pipe(
       ofType(WeatherActions.init),
       fetch({
-        run: (action) => {
+        run: () => {
+          console.log('receive init');
           // Your custom service 'load' logic goes here. For now just return a success action...
-          return WeatherActions.loadWeatherSuccess({ weather: [] });
+          return WeatherActions.loadWeatherLocations();
         },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return WeatherActions.loadWeatherFailure({ error });
+      })
+    )
+  );
+
+  loadWeatherLocations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WeatherActions.loadWeatherLocations),
+      fetch({
+        run: () => {
+          console.log('receive load');
+          return WeatherActions.loadWeatherLocationsSuccess({
+            locations: [{ location: 'Stuttgart', temp: 25 }],
+          });
         },
       })
     )

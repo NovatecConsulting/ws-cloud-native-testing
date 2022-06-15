@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as WeatherActions from './weather.actions';
+import {WeatherActions} from "./weather.state";
 
 @Injectable()
 export class WeatherFacade {
