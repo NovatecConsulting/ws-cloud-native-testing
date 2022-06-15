@@ -2,27 +2,11 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
-
-export interface WeatherApiModel {
-  temp: number;
-  name: string;
-}
-
-export interface WeatherLocation {
-  temp: number;
-  location: string;
-}
-
-export interface LocationApiModel {
-  name: string;
-}
+import {Endpoints, LocationApiModel, mapWeatherApiModel, WeatherApiModel, WeatherLocation} from "@cntws/weather";
 
 @Injectable()
 export class WeatherService {
-  static ENDPOINTS = {
-    mainLocation: () => `${environment.weatherApi}/mainLocation`,
-    queryLocation: (location: string) => `${environment.weatherApi}/locations?q=${location}`,
-  };
+  static ENDPOINTS = new Endpoints(environment);
 
   private _weather$ = new BehaviorSubject<WeatherLocation[]>([]);
   readonly weather$: Observable<WeatherLocation[]> = this._weather$.asObservable();
@@ -34,10 +18,6 @@ export class WeatherService {
   readonly mainLocation$: Observable<string | undefined> = this._mainLocation$.asObservable();
 
   constructor(private http: HttpClient) {}
-
-  private static mapApiModel(apiModel: WeatherApiModel[]): WeatherLocation[] {
-    return apiModel.map((apiWeather) => ({ temp: apiWeather.temp, location: apiWeather.name }));
-  }
 
   getMainLocation(): void {
     this._isLoading$.next(true);
@@ -58,7 +38,7 @@ export class WeatherService {
       .pipe(
         tap(() => this._warning.next(undefined)),
         tap(() => this._isLoading$.next(false)),
-        map((apiModel) => WeatherService.mapApiModel(apiModel)),
+        map((apiModel) => mapWeatherApiModel(apiModel)),
         catchError((error) => this.handleError(error, []))
       )
       .subscribe((weather) => this._weather$.next(weather));

@@ -25,7 +25,7 @@ const weatherPageActionName = (name: string) => `[Weather Page] ${name}`;
 
 export const WeatherActions = {
   init: createAction(weatherPageActionName('Initialize')),
-  loadWeatherLocations: createAction(weatherPageActionName('Load weather locations')),
+  loadWeatherLocations: createAction(weatherPageActionName('Load weather locations'), props<{location: string}>()),
   loadWeatherLocationsSuccess: createAction(weatherPageActionName('Successfully loaded weather'), props<WEATHER_LOCATIONS>())
 }
 
